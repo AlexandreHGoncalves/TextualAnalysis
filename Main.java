@@ -8,7 +8,16 @@ public class Main {
         System.out.println("Type a number between 1 and 92 to read a SINGLE file; \nType 0 to read MULTIPLE files: ");
         int choice = sysIn.nextInt();
         
-        if(choice > 0){
+        if(choice != 0){
+            if(choice < 0){
+                System.out.println("The number is too small, switching it to 1...");
+                choice = 1;
+            }
+            else if(choice > 92){
+                System.out.println("The number is too large, switching it to 92...");{
+                    choice = 92;
+                }
+            }
             text = FileLoader.loadSingleFile(choice);
             
         }
@@ -17,11 +26,31 @@ public class Main {
             int firstIndex = sysIn.nextInt();
             System.out.println("First number: " + firstIndex + "\nType the second number: ");
             int lastIndex = sysIn.nextInt();
+           
             if(firstIndex > lastIndex){
                 System.out.println("The first number is greater than the second, switching...");
                 int temp = firstIndex;
                 firstIndex = lastIndex;
                 lastIndex = temp;
+            }
+            if(firstIndex < 0 || lastIndex > 92){
+                if(firstIndex < 0 && lastIndex > 92){
+                    System.out.println("There are no files with those numbers, switching the first to 1 and the second to 92...");
+                    firstIndex = 1;
+                    lastIndex = 92;
+                }
+                else{
+                    if(firstIndex < 0){
+                        System.out.println("The first number is too small, switching it to 1...");
+                        firstIndex = 1;
+                    }
+                    if(lastIndex > 92){
+                        System.out.println("The second number is too large, switching it to 92...");
+                        lastIndex = 92;
+                    }
+
+                }
+
             }
             text = FileLoader.loadMultipleFiles(firstIndex, lastIndex);
             
@@ -34,10 +63,21 @@ public class Main {
 
         String[] splitWords = PreProcessText.splitWords(text);
 
-        for (String phrase: splitWords) {
-            System.out.println(phrase);
+        String[] noStopWords = PreProcessText.removeStopWords(splitWords);
+
+
+        Graph graph = new Graph();
+
+        for (int i = 0; i < noStopWords.length; i++) {
+            if(noStopWords[i] != ""){
+                graph.addNode(noStopWords[i]);
+            }
         }
 
+
+        for (Graph.Node node: graph.nodes) {
+           System.out.println("Word: " + node.word + " | " + "Occurrencies: " + node.wordOccurencies);
+        }
 
     }
 }
