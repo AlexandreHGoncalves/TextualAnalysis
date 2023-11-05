@@ -87,12 +87,13 @@ public class Main {
         }
 
         graph.cleanUpGraph();
+        graph.sortGraph();
 
         for (Graph.Node node: graph.nodes) {
             System.out.println("------------------------------------------------------");
-            System.out.println("Word: " + node.word + " | " + "Occurrencies: " + node.wordOccurencies);
+            System.out.println("Word: " + node.word + " | " + "Occurrencies: " + node.wordOccurrences);
             for (Graph.Edge adjacent : node.adjacentEdges){
-                System.out.println("Edge origin: " + adjacent.originWord + " | " + "linked to: " + adjacent.linkedWord + " | " + "Link occurencies: " + adjacent.linkOccurencies);
+                System.out.println("Edge origin: " + adjacent.originWord + " | " + "linked to: " + adjacent.linkedWord + " | " + "Link occurencies: " + adjacent.linkOccurrences);
             }        
         }
 
