@@ -22,38 +22,44 @@ public class Main {
             
         }
         else if(choice == 0){
-            System.out.println("Type TWO numbers between 1 and 92, you will read ALL files from the FIRST NUMBER to the SECOND NUMBER you entered: ");
+            System.out.println("Type TWO numbers between 1 and 92, you will read ALL files from the FIRST NUMBER to the SECOND NUMBER you entered: \nPress 0 to read ALL FILES");
             int firstIndex = sysIn.nextInt();
-            System.out.println("First number: " + firstIndex + "\nType the second number: ");
-            int lastIndex = sysIn.nextInt();
-           
-            if(firstIndex > lastIndex){
-                System.out.println("The first number is greater than the second, switching...");
-                int temp = firstIndex;
-                firstIndex = lastIndex;
-                lastIndex = temp;
+            if(firstIndex == 0){
+                text = FileLoader.loadMultipleFiles(1, 92);
             }
-            if(firstIndex < 0 || lastIndex > 92){
-                if(firstIndex < 0 && lastIndex > 92){
-                    System.out.println("There are no files with those numbers, switching the first to 1 and the second to 92...");
-                    firstIndex = 1;
-                    lastIndex = 92;
+            else{
+                
+                System.out.println("First number: " + firstIndex + "\nType the second number: ");
+                int lastIndex = sysIn.nextInt();
+               
+                if(firstIndex > lastIndex){
+                    System.out.println("The first number is greater than the second, switching...");
+                    int temp = firstIndex;
+                    firstIndex = lastIndex;
+                    lastIndex = temp;
                 }
-                else{
-                    if(firstIndex < 0){
-                        System.out.println("The first number is too small, switching it to 1...");
+                if(firstIndex < 0 || lastIndex > 92){
+                    if(firstIndex < 0 && lastIndex > 92){
+                        System.out.println("There are no files with those numbers, switching the first to 1 and the second to 92...");
                         firstIndex = 1;
-                    }
-                    if(lastIndex > 92){
-                        System.out.println("The second number is too large, switching it to 92...");
                         lastIndex = 92;
                     }
-
+                    else{
+                        if(firstIndex < 0){
+                            System.out.println("The first number is too small, switching it to 1...");
+                            firstIndex = 1;
+                        }
+                        if(lastIndex > 92){
+                            System.out.println("The second number is too large, switching it to 92...");
+                            lastIndex = 92;
+                        }
+    
+                    }
+    
                 }
-
+                text = FileLoader.loadMultipleFiles(firstIndex, lastIndex);
+                
             }
-            text = FileLoader.loadMultipleFiles(firstIndex, lastIndex);
-            
         }
         sysIn.close();
 
@@ -80,6 +86,7 @@ public class Main {
             }
         }
 
+        graph.cleanUpGraph();
 
         for (Graph.Node node: graph.nodes) {
             System.out.println("------------------------------------------------------");

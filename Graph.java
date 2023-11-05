@@ -72,4 +72,24 @@ public class Graph {
             }
         }
     }
+
+    public void cleanUpGraph(){
+        LinkedList<Node> nodesToDelete = new LinkedList<Node>();
+        LinkedList<Edge> edgesToDelete = new LinkedList<Edge>();
+        for (Node node : nodes) {
+            for(Edge adjacentEdge: node.adjacentEdges){
+                if(adjacentEdge.linkOccurencies < 2){
+                    edgesToDelete.add(adjacentEdge);
+                }
+            }
+            node.adjacentEdges.removeAll(edgesToDelete);
+            if (node.wordOccurencies < 2 || node.adjacentEdges.isEmpty()) {
+                nodesToDelete.add(node);
+            }
+        }
+
+        nodes.removeAll(nodesToDelete);
+
+
+    }
 }
