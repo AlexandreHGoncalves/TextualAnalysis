@@ -59,24 +59,34 @@ public class Main {
 
         text = PreProcessText.processText(text);
 
-        String[] splitPhrases = PreProcessText.splitPhrases(text);
+        //String[] splitPhrases = PreProcessText.splitPhrases(text);
 
         String[] splitWords = PreProcessText.splitWords(text);
 
-        String[] noStopWords = PreProcessText.removeStopWords(splitWords);
+        splitWords = PreProcessText.removeStopWords(splitWords);
 
 
         Graph graph = new Graph();
 
-        for (int i = 0; i < noStopWords.length; i++) {
-            if(noStopWords[i] != ""){
-                graph.addNode(noStopWords[i]);
+        for (int i = 0; i < splitWords.length; i++) {
+            if(splitWords[i] != ""){
+                graph.addNode(splitWords[i]);
+                if(i + 1 < splitWords.length - 1)
+                {
+                    if(splitWords[i + 1] != null && splitWords[i + 1] != ""){
+                        graph.addEdge(splitWords[i], splitWords[i + 1]);
+                    }
+                }
             }
         }
 
 
         for (Graph.Node node: graph.nodes) {
-           System.out.println("Word: " + node.word + " | " + "Occurrencies: " + node.wordOccurencies);
+            System.out.println("------------------------------------------------------");
+            System.out.println("Word: " + node.word + " | " + "Occurrencies: " + node.wordOccurencies);
+            for (Graph.Edge adjacent : node.adjacentEdges){
+                System.out.println("Edge origin: " + adjacent.originWord + " | " + "linked to: " + adjacent.linkedWord + " | " + "Link occurencies: " + adjacent.linkOccurencies);
+            }        
         }
 
     }

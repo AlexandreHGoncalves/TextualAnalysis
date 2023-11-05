@@ -2,8 +2,7 @@ import java.util.LinkedList;
 
 public class Graph {
     LinkedList<Node> nodes = new LinkedList<Node>(); //List of nodes
-    int nNodes; //The number of nodes
-    
+
     public class Node{
         String word; //The word the node represents
         int wordOccurencies; //The amount of times the word appears in the text
@@ -17,13 +16,11 @@ public class Graph {
 
 
     public static class Edge{
-        int edgeIndex;
         String originWord; //The word the edge originates from
         String linkedWord; //The word the edge links to
         int linkOccurencies; //The number of links between the two words
 
-        Edge(int index, String origin, String linkedTo){
-            this.edgeIndex = index;
+        Edge(String origin, String linkedTo){
             this.originWord = origin;
             this.linkedWord = linkedTo;
         }
@@ -39,18 +36,40 @@ public class Graph {
         }
         if(additions == 0){
             Node newNode = new Node(word);
+            newNode.wordOccurencies += 1;
             nodes.add(newNode);
         }
     }
-    /*
-    public static void addEdge(Node node, int edgeIndex, String originWord, String linkedTo){
-
-        if(node.adjacencies[edgeIndex].equals(originWord)){
-
+    public void addEdge(String originWord, String linkedTo){
+        int additions = 0;
+        for (Node node: nodes){
+            if(node.word.equals(originWord)){
+                for (Edge adjacent: node.adjacentEdges) {
+                    if(adjacent.originWord.equals(originWord)){
+                        if(adjacent.linkedWord.equals(linkedTo)){
+                            adjacent.linkOccurencies += 1;
+                            additions++;
+                            break;
+                        }
+                        else{
+                            Edge newEdge = new Edge(originWord, linkedTo);
+                            node.adjacentEdges.add(newEdge);
+                            newEdge.linkOccurencies += 1;
+                            additions++;
+                            break;
+                        }
+                    }
+                }
+            }
         }
-        Edge newEdge = new Edge(edgeIndex, originWord, linkedTo);
-        graph.adjacencies[edgeIndex].add(newEdge);
+        if(additions == 0){
+            Edge newEdge = new Edge(originWord, linkedTo);
+            newEdge.linkOccurencies += 1;
+            for (Node node : nodes) {
+                if(node.word == originWord){
+                    node.adjacentEdges.add(newEdge);
+                }
+            }
+        }
     }
-    */
-
 }
