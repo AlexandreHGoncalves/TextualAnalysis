@@ -22,7 +22,7 @@ public class Main {
             
         }
         else if(choice == 0){
-            System.out.println("Type TWO numbers between 1 and 92, you will read ALL files from the FIRST NUMBER to the SECOND NUMBER you entered: \nPress 0 to read ALL FILES");
+            System.out.println("Type TWO numbers between 1 and 92, you will read ALL files from the FIRST NUMBER to the SECOND NUMBER you entered: \nType 0 to read ALL FILES");
             int firstIndex = sysIn.nextInt();
             if(firstIndex == 0){
                 text = FileLoader.loadMultipleFiles(1, 92);
@@ -62,6 +62,8 @@ public class Main {
             }
         }
         sysIn.close();
+
+        System.out.println("Processing...");
 
         text = PreProcessText.processText(text);
 
