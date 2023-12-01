@@ -4,11 +4,19 @@ public class PreProcessText{
         return text.split("\\s+");
     }
 
-    public static String[] splitPhrases(String text){
-        return text.split("[?\n:.!;]+");
+    public static String[] splitAuthors(String text){
+        return text.split(",");
     }
 
-    public static String processText(String text){
+    public static String[] splitTopics(String text){
+        return text.trim().split("[,;]");
+    }
+
+    public static String[] splitPhrases(String text){
+        return text.split("[?\n:.!]+");
+    }
+
+    public static String processText(String text, String type){
         text = text.toLowerCase();
         
         String[] specialCharacters = {"ã", "â", "á", "à", "é", "ê", "í", "ó", "õ", "ô", "ú", "ç"};
@@ -26,9 +34,10 @@ public class PreProcessText{
             }
             index++;
         }
-
-        text = text.replaceAll("[^\n?:;.!a-zA-Z -]", "");
-        text = text.replaceAll("[-]", " ");
+        if(type != "authors" && type != "topics"){
+            text = text.replaceAll("[^\n?:;.!a-zA-Z -]", "");
+            text = text.replaceAll("[-]", " ");
+        }
         return text;
     }
 
